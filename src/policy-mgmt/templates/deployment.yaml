@@ -35,13 +35,31 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name:
+          - name: APP_DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                name: {{ .Values.stoAppHarnessToken.name }}
-                key: {{ .Values.stoAppHarnessToken.key }}
-          - name: 
-            value: ""
+                name: {{ .Values.policyMgmtSecrets.databaseUser.name }}
+                key: {{ .Values.policyMgmtSecrets.databaseUser.key }}
+          - name: APP_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                name: {{ .Values.policyMgmtSecrets.databasePassword.name }}
+                key: {{ .Values.policyMgmtSecrets.databasePassword.key }}
+          - name: APP_APPDYNAMICS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                name: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.name }}
+                key: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.key }}
+          - name: APP_EVENTS_FRAMEWORK_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                name: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.name }}
+                key: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.key }}
+          - name: APP_NEXT_GEN_MANAGER_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                name: {{ .Values.policyMgmtSecrets.ngManagerJwtSecret.name }}
+                key: {{ .Values.policyMgmtSecrets.ngManagerJwtSecret.key }}
           envFrom:
           - configMapRef:
               name: policy-mgmt

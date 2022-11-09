@@ -16,24 +16,17 @@ image:
 config:
   httpBind: '3000'
   debug: 'true'
-
-  databaseDatasource: ''
-  databaseUser: '' 
-  databasePassword: '' 
-
+  databaseDatasource: 'host=10.52.80.41 user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable'
   enableAuditTrail: 'true'
   enableEntitlementsJob: 'true'
   enableSegmentAnalytics: 'true'
   eventsFrameworkRedisUrl: 'harness-redis-master:6379'
-  eventsFrameworkEnvNamespace: ''
-  eventsFrameworkRedisPassword: ''
+  eventsFrameworkEnvNamespace: 'prod'
   eventsFrameworkRedisSslEnabled: 'true'
   eventsFrameworkRedisSslCaPath: '/opt/harness/svc/redis_labs_ca.pem'
-
   gitxEnabled: 'false'
   gitxAuthority: 'manager-grpc-app.harness.io'
   gitxUrl: 'https://nginx-ingress-controller.ingress-nginx.svc.cluster.local'
-
   appdynamicsEnabled: 'true'
   appdynamicsAccount: 'harness-prod'
   appdynamicsAppName: 'Prod'
@@ -41,11 +34,22 @@ config:
   appdynamicsControllerHost: 'harness-prod.saas.appdynamics.com'
   appdynamicsControllerPort: '443'
 
-  appdynamicsAccessKey: ''
-
-  ngManagerJwtSecret: ''
-
-  segmentWriteKey: ''
+policyMgmtSecrets:
+  ngManagerJwtSecret:
+    name: harness-pm-secrets
+    key: ngManagerJwtSecret
+  appdynamicsAccessKey:
+    name: harness-pm-secrets
+    key: appdynamicsAccessKey
+  eventsFrameworkRedisPassword:
+    name: harness-pm-secrets
+    key: eventsFrameworkRedisPassword
+  databaesPassword:
+    name: harness-pm-secrets
+    key: databasePassword
+  databaseUser:
+    name: harness-pm-secrets
+    key: databaseUser
 
 
 imagePullSecrets: []
