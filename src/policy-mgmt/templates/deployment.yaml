@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "policy-mgmt.fullname" . }}
+  name: policy-mgmt
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "policy-mgmt.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  {{- end}}
   selector:
     matchLabels:
       {{- include "policy-mgmt.selectorLabels" . | nindent 6 }}
@@ -29,49 +29,31 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: policy-mgmt
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-          - name: APP_DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                name: {{ .Values.policyMgmtSecrets.databaseUser.name }}
-                key: {{ .Values.policyMgmtSecrets.databaseUser.key }}
-          - name: APP_DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                name: {{ .Values.policyMgmtSecrets.databasePassword.name }}
-                key: {{ .Values.policyMgmtSecrets.databasePassword.key }}
-          - name: APP_APPDYNAMICS_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                name: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.name }}
-                key: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.key }}
-          - name: APP_EVENTS_FRAMEWORK_REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                name: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.name }}
-                key: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.key }}
           envFrom:
-          - configMapRef:
-              name: policy-mgmt
+            - configMapRef:
+                name: policy-mgmt
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{.Values.service.port}}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: APP_APPDYNAMICS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.name }}
+                  key: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.key }}
+            - name: APP_EVENTS_FRAMEWORK_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.name }}
+                  key: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.key }}  
+            - name:  APP_DATABASE_USER
+              value: postgres
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

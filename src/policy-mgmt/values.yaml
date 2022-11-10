@@ -4,7 +4,6 @@
 global:
   loadbalancerURL: "http://test/"
   airgap: "false"
-
 replicaCount: 1
 
 image:
@@ -12,7 +11,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.16.0"
 
 config:
   httpBind: '3000'
@@ -45,7 +44,7 @@ policyMgmtSecrets:
   eventsFrameworkRedisPassword:
     name: harness-pm-secrets
     key: eventsFrameworkRedisPassword
-  databaesPassword:
+  databasePassword:
     name: harness-pm-secrets
     key: databasePassword
   databaseUser:
