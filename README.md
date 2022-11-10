@@ -1,7 +1,7 @@
 #Helm chart for policy-management
 
 ### Requirements
-To use Policy Management you first need to install the .
+To use Policy Management you first need to install postgres database.
 
 
 ### Configuration options

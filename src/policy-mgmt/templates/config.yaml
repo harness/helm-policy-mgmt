@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: '{{ include "app.name" . }}'
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
 data:
   APP_HTTP_BIND: '{{ .Values.config.httpBind }}'
   APP_DEBUG: '{{ .Values.config.debug }}'
