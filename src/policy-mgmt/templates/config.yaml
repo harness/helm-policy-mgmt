@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: '{{ include "app.name" . }}'
+  name: '{{ include "policy-mgmt.fullname" . }}'
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "policy-mgmt.labels" . | nindent 4 }}
 data:
   APP_HTTP_BIND: '{{ .Values.config.httpBind }}'
   APP_DEBUG: '{{ .Values.config.debug }}'
