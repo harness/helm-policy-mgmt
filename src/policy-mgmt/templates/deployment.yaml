@@ -55,11 +55,6 @@ spec:
                 secretKeyRef:
                 name: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.name }}
                 key: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.key }}
-          - name: APP_NEXT_GEN_MANAGER_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                name: {{ .Values.policyMgmtSecrets.ngManagerJwtSecret.name }}
-                key: {{ .Values.policyMgmtSecrets.ngManagerJwtSecret.key }}
           envFrom:
           - configMapRef:
               name: policy-mgmt
