@@ -9,8 +9,6 @@ data:
   APP_DATABASE_DATASOURCE: '{{ .Values.config.databaseDatasource }}'
   APP_PLATFORM_BASE_URL: '{{ .Values.global.loadbalancerURL }}'
   APP_ENABLE_AUDIT_TRAIL: '{{ .Values.config.enableAuditTrail }}'
-  APP_ENABLE_ENTITLEMENTS_JOB: '{{ .Values.config.enableEntitlementsJob }}'
-  APP_ENABLE_SEGMENT_ANALYTICS: '{{ .Values.config.enableSegmentAnalytics }}'
   APP_EVENTS_FRAMEWORK_REDIS_URL: '{{ .Values.config.eventsFrameworkRedisUrl }}'
   APP_EVENTS_FRAMEWORK_ENV_NAMESPACE: '{{ .Values.config.eventsFrameworkEnvNamespace }}'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: '{{ .Values.config.eventsFrameworkRedisSslEnabled }}'
@@ -18,12 +16,6 @@ data:
   APP_GITX_ENABLED: '{{ .Values.config.gitxEnabled }}'
   APP_GITX_AUTHORITY: '{{ .Values.config.gitxAuthority }}'
   APP_GITX_URL: '{{ .Values.config.gitxUrl }}'
-  APP_APPDYNAMICS_ENABLED: '{{ .Values.config.appdynamicsEnabled }}'
-  APP_APPDYNAMICS_ACCOUNT: '{{ .Values.config.appdynamicsAccount }}'
-  APP_APPDYNAMICS_APP_NAME: '{{ .Values.config.appdynamicsAppName }}'
-  APP_APPDYNAMICS_TIER_NAME: '{{ .Values.config.appdynamicsTierName }}'
-  APP_APPDYNAMICS_CONTROLLER_HOST: '{{ .Values.config.appdynamicsControllerHost }}'
-  APP_APPDYNAMICS_CONTROLLER_PORT: '{{ .Values.config.appdynamicsControllerPort }}'
   APP_TOKEN_JWT_SECRET: "HVSKUYqD4e5Rxu12hFDdCJKGM64sxgEynvdDhaOHaTHhwwn0K4Ttr0uoOxSsEVYNrUU="
   APP_INTERNAL_TOKEN_JWT_SECRET: "dOkdsVqdRPPRJG31XU0qY4MPqmBBMk0PTAGIKM6O7TGqhjyxScIdJe80mwh5Yb5zF3KxYBHw6B3Lfzlq"
-  APP_NEXT_GEN_MANAGER_JWT_SECRET: ""
+  APP_NEXT_GEN_MANAGER_JWT_SECRET: "IC04LYMBf1lDP5oeY4hupxd4HJhLmN6azUku3xEbeE3SUx5G3ZYzhbiwVtK4i7AmqyU9OZkwB4v8E9qM"

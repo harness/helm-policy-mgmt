@@ -60,12 +60,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{- define "policy-mgmt.deploymentEnv" -}}
-- name: DB_PASSWORD
-  valueFrom:
-    secretKeyRef:
-        name: postgres
-        key: postgres-password
-- { name: APP_DATABASE_DATASOURCE, value: "{{ printf "postgres://postgres:$(DB_PASSWORD)@postgres:5432" }}" }
-{{- end }}

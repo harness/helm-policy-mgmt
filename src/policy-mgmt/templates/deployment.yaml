@@ -41,17 +41,7 @@ spec:
             - name: http
               containerPort: {{.Values.service.port}}
               protocol: TCP
-          env:
-            - name: APP_APPDYNAMICS_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.name }}
-                  key: {{ .Values.policyMgmtSecrets.appdynamicsAccessKey.key }}
-            - name: APP_EVENTS_FRAMEWORK_REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.name }}
-                  key: {{ .Values.policyMgmtSecrets.eventsFrameworkRedisPassword.key }}  
+          env: 
             - name:  APP_DATABASE_USER
               value: postgres
       {{- with .Values.nodeSelector }}
