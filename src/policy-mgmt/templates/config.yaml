@@ -6,10 +6,9 @@ metadata:
 data:
   APP_HTTP_BIND: '{{ .Values.config.httpBind }}'
   APP_DEBUG: '{{ .Values.config.debug }}'
-  APP_DATABASE_DATASOURCE: '{{ .Values.config.databaseDatasource }}'
   APP_PLATFORM_BASE_URL: '{{ .Values.global.loadbalancerURL }}'
   APP_ENABLE_AUDIT_TRAIL: '{{ .Values.config.enableAuditTrail }}'
-  APP_EVENTS_FRAMEWORK_REDIS_URL: '{{ .Values.config.eventsFrameworkRedisUrl }}'
+  APP_EVENTS_FRAMEWORK_REDIS_URL: 'redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis-sentinel-harness-announce-2.{{ .Release.Namespace }}:26379'
   APP_EVENTS_FRAMEWORK_ENV_NAMESPACE: '{{ .Values.config.eventsFrameworkEnvNamespace }}'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: '{{ .Values.config.eventsFrameworkRedisSslEnabled }}'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_CA_PATH: '{{ .Values.config.eventsFrameworkRedisSslCaPath }}'

@@ -4,6 +4,7 @@
 global:
   loadbalancerURL: "http://test/"
   airgap: "false"
+
 replicaCount: 1
 
 image:
@@ -12,15 +13,23 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.45.0"
+  digest: ""
+
+## -- initContainer for Harness application waits
+waitForInitContainer:
+  image:
+    registry: docker.io
+    repository: harness/helm-init-container
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    digest: ""
 
 config:
   httpBind: '3000'
   debug: 'true'
-  databaseDatasource: 'host=10.52.80.41 user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable'
   enableAuditTrail: 'true'
   enableEntitlementsJob: 'true'
   enableSegmentAnalytics: 'true'
-  eventsFrameworkRedisUrl: 'harness-redis-master:6379'
   eventsFrameworkEnvNamespace: 'prod'
   eventsFrameworkRedisSslEnabled: 'true'
   eventsFrameworkRedisSslCaPath: '/opt/harness/svc/redis_labs_ca.pem'
@@ -98,3 +107,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Postgres secret value and key
+postgresPassword:
+  name: postgres
+  key: postgres-password

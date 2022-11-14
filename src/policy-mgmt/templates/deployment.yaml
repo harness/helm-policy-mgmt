@@ -28,6 +28,13 @@ spec:
       serviceAccountName: {{ include "policy-mgmt.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: wait-for-postgres
+        image: {{ include "common.images.image" (dict "imageRoot" .Values.waitForInitContainer.image "global" .Values.global) }}
+        imagePullPolicy: IfNotPresent
+        args:
+          - "pod"
+          - "-lapp=postgres"
       containers:
         - name: policy-mgmt
           securityContext:
@@ -41,7 +48,14 @@ spec:
             - name: http
               containerPort: {{.Values.service.port}}
               protocol: TCP
-          env: 
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresPassword.name }}
+                  key: {{ .Values.postgresPassword.key }} 
+            - name: APP_DATABASE_DATASOURCE
+              value: "postgres://postgres:$(DB_PASSWORD)@postgres:5432"
             - name:  APP_DATABASE_USER
               value: postgres
       {{- with .Values.nodeSelector }}
