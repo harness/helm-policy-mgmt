@@ -12,7 +12,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.45.0"
+  tag: "vtest"
   digest: ""
 
 ## -- initContainer for Harness application waits
@@ -24,6 +24,7 @@ waitForInitContainer:
     tag: "latest"
     digest: ""
 
+
 config:
   httpBind: '3000'
   debug: 'true'
@@ -33,9 +34,6 @@ config:
   eventsFrameworkEnvNamespace: 'prod'
   eventsFrameworkRedisSslEnabled: 'true'
   eventsFrameworkRedisSslCaPath: '/opt/harness/svc/redis_labs_ca.pem'
-  gitxEnabled: 'false'
-  gitxAuthority: 'manager-grpc-app.harness.io'
-  gitxUrl: 'https://nginx-ingress-controller.ingress-nginx.svc.cluster.local'
 
 imagePullSecrets: []
 nameOverride: ""
