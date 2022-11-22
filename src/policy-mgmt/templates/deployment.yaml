@@ -49,15 +49,16 @@ spec:
               containerPort: {{.Values.service.port}}
               protocol: TCP
           env:
-            - name: DB_PASSWORD
+            - name: APP_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.postgresPassword.name }}
                   key: {{ .Values.postgresPassword.key }} 
             - name: APP_DATABASE_DATASOURCE
-              value: "postgres://postgres:$(DB_PASSWORD)@postgres:5432"
+              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable"
             - name:  APP_DATABASE_USER
               value: postgres
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
