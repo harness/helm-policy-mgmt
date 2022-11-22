@@ -31,5 +31,5 @@ spec:
     - destination:
         port:
           number: {{ .Values.service.port }}
-        host: {{ $fullName }}
+        host: policy-mgmt
 {{ end }}
