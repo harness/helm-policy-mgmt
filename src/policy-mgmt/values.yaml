@@ -5,6 +5,14 @@ global:
   loadbalancerURL: "http://test/"
   airgap: "false"
 
+  istio:
+    enabled: false
+
+  ingress:
+    enabled: false
+
+
+
 replicaCount: 1
 
 image:
