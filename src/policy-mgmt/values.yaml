@@ -20,7 +20,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "vtest"
+  tag: "latest"
   digest: ""
 
 ## -- initContainer for Harness application waits
@@ -34,6 +34,7 @@ waitForInitContainer:
 
 
 config:
+  gitxEnabled: false
   httpBind: '3000'
   debug: 'true'
   enableAuditTrail: 'true'

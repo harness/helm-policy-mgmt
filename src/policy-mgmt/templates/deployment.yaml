@@ -55,7 +55,7 @@ spec:
                   name: {{ .Values.postgresPassword.name }}
                   key: {{ .Values.postgresPassword.key }} 
             - name: APP_DATABASE_DATASOURCE
-              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable"
+              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy_mgmt sslmode=disable"
             - name:  APP_DATABASE_USER
               value: postgres
 
