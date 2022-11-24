@@ -7,6 +7,7 @@ data:
   APP_DATABASE_DRIVER: 'postgres'
   APP_HTTP_BIND: ':3000'
   APP_DEBUG: '{{ .Values.config.debug }}'
+  APP_ON_PREM: 'true'
   APP_PLATFORM_BASE_URL: '{{ .Values.global.loadbalancerURL }}'
   APP_ENABLE_AUDIT_TRAIL: 'true'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
