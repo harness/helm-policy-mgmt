@@ -2,11 +2,25 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
-  loadbalancerURL: "http://test/"
+  loadbalancerURL: https://smp-istio.qa.harness.io
   airgap: "false"
 
   istio:
-    enabled: false
+    enabled: true
+    gateway:
+      create: true
+      port: 443
+      protocol: HTTPS
+    hosts:
+    - '*'
+    strict: true
+    tls:
+      credentialName: harness-wildcard
+      minProtocolVersion: TLSV1_2
+      mode: SIMPLE
+    virtualService:
+      hosts:
+      - smp-istio.qa.harness.io
 
   ingress:
     enabled: false
@@ -14,7 +28,6 @@ global:
 
 
 replicaCount: 1
-
 image:
   registry: docker.io
   repository: harness/policy-mgmt
@@ -37,14 +50,10 @@ config:
   gitxEnabled: false
   httpBind: '3000'
   debug: 'true'
-  enableAuditTrail: 'true'
-  enableEntitlementsJob: 'true'
-  enableSegmentAnalytics: 'true'
-  eventsFrameworkEnvNamespace: 'prod'
-  eventsFrameworkRedisSslEnabled: 'true'
-  eventsFrameworkRedisSslCaPath: '/opt/harness/svc/redis_labs_ca.pem'
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: gcr-json-key 
+
 nameOverride: ""
 fullnameOverride: ""
 

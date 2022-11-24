@@ -14,8 +14,9 @@ spec:
       {{- include "policy-mgmt.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -55,7 +56,7 @@ spec:
                   name: {{ .Values.postgresPassword.name }}
                   key: {{ .Values.postgresPassword.key }} 
             - name: APP_DATABASE_DATASOURCE
-              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy_mgmt sslmode=disable"
+              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable"
             - name:  APP_DATABASE_USER
               value: postgres
 
