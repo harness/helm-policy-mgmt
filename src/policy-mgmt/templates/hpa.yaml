@@ -2,7 +2,8 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "policy-mgmt.fullname" . }}
+  name: policy-mgmt
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "policy-mgmt.labels" . | nindent 4 }}
 spec:
@@ -12,17 +13,7 @@ spec:
     name: {{ include "policy-mgmt.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
+  {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+  targetCPUUtilizationPercentage : {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+  {{ end }}
 {{- end }}
