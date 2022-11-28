@@ -1,6 +1,6 @@
 apiVersion: v2
 name: policy-mgmt
-description: A Helm chart for Harness policy management 
+description: A Helm chart for Harness policy management
 
 # A chart can be either an 'application' or a 'library' chart.
 #

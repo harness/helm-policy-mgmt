@@ -52,7 +52,7 @@ config:
   debug: 'true'
 
 imagePullSecrets:
-  - name: gcr-json-key 
+  - name: gcr-json-key
 
 nameOverride: ""
 fullnameOverride: ""
