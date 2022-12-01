@@ -1,6 +1,6 @@
 # policy-mgmt
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
 
 A Helm chart for Harness policy management
 
@@ -25,23 +25,21 @@ A Helm chart for Harness policy management
 | fullnameOverride | string | `""` |  |
 | global.airgap | string | `"false"` |  |
 | global.ingress.enabled | bool | `false` |  |
-| global.istio.enabled | bool | `true` |  |
-| global.istio.gateway.create | bool | `true` |  |
+| global.ingress.objects.annotations | object | `{}` |  |
+| global.istio.enabled | bool | `false` |  |
+| global.istio.gateway.create | bool | `false` |  |
 | global.istio.gateway.port | int | `443` |  |
 | global.istio.gateway.protocol | string | `"HTTPS"` |  |
 | global.istio.hosts[0] | string | `"*"` |  |
 | global.istio.strict | bool | `true` |  |
-| global.istio.tls.credentialName | string | `"harness-wildcard"` |  |
-| global.istio.tls.minProtocolVersion | string | `"TLSV1_2"` |  |
-| global.istio.tls.mode | string | `"SIMPLE"` |  |
-| global.istio.virtualService.hosts[0] | string | `"smp-istio.qa.harness.io"` |  |
-| global.loadbalancerURL | string | `"https://smp-istio.qa.harness.io"` |  |
+| global.istio.tls.credentialName | string | `""` |  |
+| global.istio.virtualService.hosts[0] | string | `"*"` |  |
+| global.loadbalancerURL | string | `"https://example.com"` |  |
 | image.digest | string | `""` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"harness/policy-mgmt"` |  |
 | image.tag | string | `"v1.49.0"` |  |
-| imagePullSecrets[0].name | string | `"gcr-json-key"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.hosts[0].host | string | `""` |  |
 | ingress.hosts[0].paths[0].path | string | `"/pm"` |  |

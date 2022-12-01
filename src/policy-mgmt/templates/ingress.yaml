@@ -20,7 +20,7 @@ metadata:
     {{- include "policy-mgmt.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
   {{- with .Values.global.ingress.objects.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -28,34 +28,25 @@ spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.global.ingress.className }}
   {{- end }}
-  {{- if .Values.global.ingress.tls }}
+  {{- if .Values.global.ingress.tls.enabled }}
   tls:
-    {{- range .Values.global.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
+        {{- range .Values.global.ingress.hosts }}
         - {{ . | quote }}
         {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
+      secretName: {{ .Values.global.ingress.tls.secretName }}
   {{- end }}
   rules:
     {{- range .Values.global.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ . | quote }}
       http:
         paths:
-          - path: /pm
-            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+          - backend:
               service:
                 name: policy-mgmt
                 port:
-                  number: {{ $svcPort }}
-              {{- else }}
-              serviceName: policy-mgmt
-              servicePort: {{ $svcPort }}
-              {{- end }}
+                  name: {{ $svcPort }}
+            pathType: ImplementationSpecific
+            path: /pm/(.*)
     {{- end }}
 {{- end }}

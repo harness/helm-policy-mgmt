@@ -2,28 +2,28 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
-  loadbalancerURL: https://smp-istio.qa.harness.io
+  loadbalancerURL: https://example.com
   airgap: "false"
 
   istio:
-    enabled: true
+    enabled: false
     gateway:
-      create: true
+      create: false
       port: 443
       protocol: HTTPS
     hosts:
     - '*'
     strict: true
     tls:
-      credentialName: harness-wildcard
-      minProtocolVersion: TLSV1_2
-      mode: SIMPLE
+      credentialName: ""
     virtualService:
       hosts:
-      - smp-istio.qa.harness.io
+      - '*'
 
   ingress:
     enabled: false
+    objects:
+      annotations: {}
 
 replicaCount: 1
 image:
@@ -48,8 +48,8 @@ config:
   httpBind: '3000'
   debug: 'true'
 
-imagePullSecrets:
-  - name: gcr-json-key
+# imagePullSecrets:
+#   - name: gcr-json-key
 
 nameOverride: ""
 fullnameOverride: ""
