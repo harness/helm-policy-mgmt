@@ -40,7 +40,7 @@ A Helm chart for Harness policy management
 | image.pullPolicy | string | `"Always"` |  |
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"harness/policy-mgmt"` |  |
-| image.tag | string | `"latest"` |  |
+| image.tag | string | `"v1.49.0"` |  |
 | imagePullSecrets[0].name | string | `"gcr-json-key"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.hosts[0].host | string | `""` |  |
