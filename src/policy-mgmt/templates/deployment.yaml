@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "policy-mgmt.fullname" . }}
+  name: policy-mgmt
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "policy-mgmt.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  {{- end}}
   selector:
     matchLabels:
       {{- include "policy-mgmt.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -27,26 +29,37 @@ spec:
       serviceAccountName: {{ include "policy-mgmt.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: wait-for-postgres
+        image: {{ include "common.images.image" (dict "imageRoot" .Values.waitForInitContainer.image "global" .Values.global) }}
+        imagePullPolicy: IfNotPresent
+        args:
+          - "pod"
+          - "-lapp=postgres"
       containers:
-        - name: {{ .Chart.Name }}
+        - name: policy-mgmt
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: policy-mgmt
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{.Values.service.port}}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: APP_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresPassword.name }}
+                  key: {{ .Values.postgresPassword.key }}
+            - name: APP_DATABASE_DATASOURCE
+              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable"
+            - name:  APP_DATABASE_USER
+              value: postgres
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

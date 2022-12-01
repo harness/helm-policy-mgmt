@@ -1,27 +1,67 @@
 # Default values for policy-mgmt.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+global:
+  loadbalancerURL: https://smp-istio.qa.harness.io
+  airgap: "false"
+
+  istio:
+    enabled: true
+    gateway:
+      create: true
+      port: 443
+      protocol: HTTPS
+    hosts:
+    - '*'
+    strict: true
+    tls:
+      credentialName: harness-wildcard
+      minProtocolVersion: TLSV1_2
+      mode: SIMPLE
+    virtualService:
+      hosts:
+      - smp-istio.qa.harness.io
+
+  ingress:
+    enabled: false
 
 replicaCount: 1
-
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  registry: docker.io
+  repository: harness/policy-mgmt
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.49.0"
+  digest: ""
 
-imagePullSecrets: []
+## -- initContainer for Harness application waits
+waitForInitContainer:
+  image:
+    registry: docker.io
+    repository: harness/helm-init-container
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    digest: ""
+
+config:
+  gitxEnabled: false
+  httpBind: '3000'
+  debug: 'true'
+
+imagePullSecrets:
+  - name: gcr-json-key
+
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "harness-default"
 
 podAnnotations: {}
 
@@ -38,35 +78,33 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 3000
 
 ingress:
-  enabled: false
-  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: ""
       paths:
-        - path: /
+        - path: /pm
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -80,3 +118,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Postgres secret value and key
+postgresPassword:
+  name: postgres
+  key: postgres-password
