@@ -25,7 +25,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  {{- if and .Values.global.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.global.ingress.className }}
   {{- end }}
   {{- if .Values.global.ingress.tls.enabled }}
@@ -45,7 +45,7 @@ spec:
               service:
                 name: policy-mgmt
                 port:
-                  name: {{ $svcPort }}
+                  number: {{ $svcPort }}
             pathType: ImplementationSpecific
             path: /pm/(.*)
     {{- end }}
