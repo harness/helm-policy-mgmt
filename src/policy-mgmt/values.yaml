@@ -4,7 +4,7 @@
 global:
   loadbalancerURL: https://example.com
   airgap: "false"
-
+  imagePullSecrets: []
   istio:
     enabled: false
     gateway:
@@ -33,6 +33,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.49.0"
   digest: ""
+  imagePullSecrets: []
 
 ## -- initContainer for Harness application waits
 waitForInitContainer:
@@ -42,6 +43,7 @@ waitForInitContainer:
     pullPolicy: IfNotPresent
     tag: "latest"
     digest: ""
+    imagePullSecrets: []
 
 config:
   gitxEnabled: false
