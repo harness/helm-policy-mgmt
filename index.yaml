@@ -3,6 +3,20 @@ entries:
   policy-mgmt:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2023-04-26T16:25:37.127319018Z"
+    dependencies:
+    - name: harness-common
+      repository: https://harness.github.io/helm-common
+      version: 1.x.x
+    description: A Helm chart for Harness policy management
+    digest: d9d28bffb91f2bfae729b77b295ad109c33da2f027cc17d386ae8d6b0de13bc8
+    name: policy-mgmt
+    type: application
+    urls:
+    - https://github.com/harness/helm-policy-mgmt/releases/download/policy-mgmt-0.4.0/policy-mgmt-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2023-03-13T18:28:30.658100938Z"
     dependencies:
     - name: harness-common
@@ -71,4 +85,4 @@ entries:
     urls:
     - https://github.com/harness/helm-policy-mgmt/releases/download/policy-mgmt-0.1.1/policy-mgmt-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-13T18:28:30.658123138Z"
+generated: "2023-04-26T16:25:37.127344399Z"
