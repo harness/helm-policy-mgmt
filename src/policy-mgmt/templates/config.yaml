@@ -10,7 +10,7 @@ data:
   APP_ON_PREM: 'true'
   APP_NG_BASE_URL: 'http://ng-manager:7090'
   APP_ACCESS_CONTROL_BASE_URL: 'http://access-control:9006'
-  APP_AUDIT_BASE_URL: 'http://platform-service:9005'
+  APP_PLATFORM_BASE_URL: 'http://platform-service:9005'
   APP_ENABLE_AUDIT_TRAIL: 'true'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
   APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: 'false'
