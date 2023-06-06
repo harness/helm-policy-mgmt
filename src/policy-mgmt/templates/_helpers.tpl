@@ -64,3 +64,20 @@ Create the name of the service account to use
 {{- define "policy-mgmt.pullSecrets" -}}
 {{ include "common.images.pullSecrets" (dict "images" (list .Values.image .Values.waitForInitContainer.image) "global" .Values.global ) }}
 {{- end -}}
+
+{{/* Generates Postgres Connection string 
+{{ include "policy-mgmt.postgresConnection" (dict "context" $) }}
+*/}}
+{{- define "policy-mgmt.postgresConnection" }}
+{{- $type := "postgres" }}
+{{- $hosts := (pluck $type .context.Values.global.database | first ).hosts }}
+{{- $firsthostport := (index $hosts 0) -}}
+{{- $hostport := split ":" $firsthostport -}}
+{{- $dbType := upper $type }}
+{{- $installed := (pluck $type .context.Values.global.database | first).installed }}
+{{- if $installed  }}
+{{- printf " host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable" }}
+{{- else }}
+{{- printf " host=%s user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable" $hostport._0 }}
+{{- end }}
+{{- end }}
