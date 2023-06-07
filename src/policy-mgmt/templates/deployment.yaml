@@ -27,12 +27,14 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+      {{- if .Values.global.database.postgres.installed }}
       - name: wait-for-postgres
         image: {{ include "common.images.image" (dict "imageRoot" .Values.waitForInitContainer.image "global" .Values.global) }}
         imagePullPolicy: IfNotPresent
         args:
           - "pod"
           - "-lapp=postgres"
+      {{- end }}
       containers:
         - name: policy-mgmt
           securityContext:
@@ -47,15 +49,28 @@ spec:
               containerPort: {{.Values.service.port}}
               protocol: TCP
           env:
+           {{- if .Values.global.database.postgres.installed }}
+            - name: APP_DATABASE_USER
+              value: postgres
             - name: APP_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.postgresPassword.name }}
                   key: {{ .Values.postgresPassword.key }}
+            {{- else }}
+            - name: APP_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.database.postgres.secretName }}
+                  key: {{ .Values.global.database.postgres.userKey }}
+            - name: APP_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.database.postgres.secretName }}
+                  key: {{ .Values.global.database.postgres.passwordKey }}
+            {{- end }}
             - name: APP_DATABASE_DATASOURCE
-              value: "host=postgres user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable"
-            - name:  APP_DATABASE_USER
-              value: postgres
+              value: {{- include "policy-mgmt.postgresConnection" (dict "context" $) }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
