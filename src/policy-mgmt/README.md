@@ -1,6 +1,6 @@
 # policy-mgmt
 
-![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+![Version: 0.5.3](https://img.shields.io/badge/Version-0.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
 
 A Helm chart for Harness policy management
 
@@ -18,7 +18,8 @@ A Helm chart for Harness policy management
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| autoscaling.targetCPU | string | `""` |  |
+| autoscaling.targetMemory | string | `""` |  |
 | config.debug | string | `"true"` |  |
 | config.gitxEnabled | bool | `false` |  |
 | config.httpBind | string | `"3000"` |  |
@@ -41,7 +42,7 @@ A Helm chart for Harness policy management
 | image.pullPolicy | string | `"Always"` |  |
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"harness/policy-mgmt"` |  |
-| image.tag | string | `"v1.56.2"` |  |
+| image.tag | string | `"v1.59.0"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.hosts[0].host | string | `""` |  |
 | ingress.hosts[0].paths[0].path | string | `"/pm"` |  |
