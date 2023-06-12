@@ -15,8 +15,9 @@ data:
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
   APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: 'false'
   APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_MASTER_NAME: 'harness-redis'
-  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: 'redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-2.{{ .Release.Namespace  }}:26379'
-  APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: 'true'
+  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" .Values.global.database.redis) }}
+  APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: {{ .Values.global.database.redis.installed | quote }}
+  APP_EVENTS_FRAMEWORK_REDIS_URL: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" .Values.global.database.redis) }}
   APP_GITX_ENABLED: '{{ .Values.config.gitxEnabled }}'
   APP_GITX_AUTHORITY: '{{ .Values.config.gitxAuthority }}'
   APP_GITX_URL: '{{ .Values.config.gitxUrl }}'
