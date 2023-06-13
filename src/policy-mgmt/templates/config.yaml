@@ -15,9 +15,12 @@ data:
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
   APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: 'false'
   APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_MASTER_NAME: 'harness-redis'
-  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" .Values.global.database.redis) }}
+  # Protocol needs to be set to empty because service uses a redis library which doesn't accept protocol based strings
+  {{- $dbContext := deepCopy .Values.global.database.redis }}
+  {{- $_ := set $dbContext "protocol" "" }}
+  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
   APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: {{ .Values.global.database.redis.installed | quote }}
-  APP_EVENTS_FRAMEWORK_REDIS_URL: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" .Values.global.database.redis) }}
+  APP_EVENTS_FRAMEWORK_REDIS_URL: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
   APP_GITX_ENABLED: '{{ .Values.config.gitxEnabled }}'
   APP_GITX_AUTHORITY: '{{ .Values.config.gitxAuthority }}'
   APP_GITX_URL: '{{ .Values.config.gitxUrl }}'
