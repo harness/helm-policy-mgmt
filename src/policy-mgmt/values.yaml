@@ -44,7 +44,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.56.2"
+  tag: "v1.59.0"
   digest: ""
   imagePullSecrets: []
 
@@ -125,8 +125,8 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetCPU: ""
+  targetMemory: ""
 
 nodeSelector: {}
 
