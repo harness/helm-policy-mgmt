@@ -8,15 +8,19 @@ data:
   APP_HTTP_BIND: ':3000'
   APP_DEBUG: '{{ .Values.config.debug }}'
   APP_ON_PREM: 'true'
+  # Protocol needs to be set to empty because service uses redis library which doesn't accept protocol based strings
+  {{- $dbContext := deepCopy .Values.global.database.redis }}
+  {{- $_ := set $dbContext "protocol" "" }}
   APP_NG_BASE_URL: 'http://ng-manager:7090'
   APP_ACCESS_CONTROL_BASE_URL: 'http://access-control:9006'
-  APP_AUDIT_BASE_URL: 'http://platform-service:9005'
+  APP_PLATFORM_BASE_URL: 'http://platform-service:9005'
   APP_ENABLE_AUDIT_TRAIL: 'true'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
-  APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: 'false'
+  APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: {{ not .Values.global.database.redis.installed | quote }}
   APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_MASTER_NAME: 'harness-redis'
-  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: 'redis-sentinel-harness-announce-0.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-1.{{ .Release.Namespace }}:26379,redis://redis-sentinel-harness-announce-2.{{ .Release.Namespace  }}:26379'
-  APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: 'true'
+  APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
+  APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: {{ .Values.global.database.redis.installed | quote }}
+  APP_EVENTS_FRAMEWORK_REDIS_URL: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
   APP_GITX_ENABLED: '{{ .Values.config.gitxEnabled }}'
   APP_GITX_AUTHORITY: '{{ .Values.config.gitxAuthority }}'
   APP_GITX_URL: '{{ .Values.config.gitxUrl }}'

@@ -49,7 +49,8 @@ spec:
               containerPort: {{.Values.service.port}}
               protocol: TCP
           env:
-           {{- if .Values.global.database.postgres.installed }}
+            {{- include "harnesscommon.dbconnection.redisEnv" (dict "context" .Values.global.database.redis "userVariableName" "EVENTS_CONFIG_REDIS_USERNAME" "passwordVariableName" "APP_EVENTS_FRAMEWORK_REDIS_PASSWORD") | indent 12 }}
+            {{- if .Values.global.database.postgres.installed }}
             - name: APP_DATABASE_USER
               value: postgres
             - name: APP_DATABASE_PASSWORD

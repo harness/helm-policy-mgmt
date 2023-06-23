@@ -24,6 +24,19 @@ global:
     enabled: false
     objects:
       annotations: {}
+  database:
+    redis:
+      installed: true
+      protocol: "redis"
+      # --  provide default values if redis.installed is set to false
+      hosts:
+        - redis:6379
+      secretName: "redis-secret"
+      userKey: "redis-user"
+      passwordKey: "redis-password"
+      extraArgs: ""
+    postgres:
+      installed: true
 
 replicaCount: 1
 image:
@@ -31,7 +44,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.56.2"
+  tag: "v1.59.0"
   digest: ""
   imagePullSecrets: []
 
@@ -102,7 +115,6 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 100m
     memory: 128Mi
   requests:
     cpu: 100m
@@ -112,8 +124,8 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetCPU: ""
+  targetMemory: ""
 
 nodeSelector: {}
 
