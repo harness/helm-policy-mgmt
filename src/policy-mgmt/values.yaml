@@ -44,7 +44,7 @@ image:
   repository: harness/policy-mgmt
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.59.0"
+  tag: "v1.63.0"
   digest: ""
   imagePullSecrets: []
 
