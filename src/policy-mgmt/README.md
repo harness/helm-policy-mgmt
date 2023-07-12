@@ -1,6 +1,6 @@
 # policy-mgmt
 
-![Version: 0.5.3](https://img.shields.io/badge/Version-0.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
+![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.16.0](https://img.shields.io/badge/AppVersion-1.16.0-informational?style=flat-square)
 
 A Helm chart for Harness policy management
 
@@ -25,6 +25,14 @@ A Helm chart for Harness policy management
 | config.httpBind | string | `"3000"` |  |
 | fullnameOverride | string | `""` |  |
 | global.airgap | string | `"false"` |  |
+| global.database.postgres.installed | bool | `true` |  |
+| global.database.redis.extraArgs | string | `""` |  |
+| global.database.redis.hosts | list | `["redis:6379"]` | provide default values if redis.installed is set to false |
+| global.database.redis.installed | bool | `true` |  |
+| global.database.redis.passwordKey | string | `"redis-password"` |  |
+| global.database.redis.protocol | string | `"redis"` |  |
+| global.database.redis.secretName | string | `"redis-secret"` |  |
+| global.database.redis.userKey | string | `"redis-user"` |  |
 | global.imagePullSecrets | list | `[]` |  |
 | global.ingress.enabled | bool | `false` |  |
 | global.ingress.objects.annotations | object | `{}` |  |
@@ -42,7 +50,7 @@ A Helm chart for Harness policy management
 | image.pullPolicy | string | `"Always"` |  |
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"harness/policy-mgmt"` |  |
-| image.tag | string | `"v1.59.0"` |  |
+| image.tag | string | `"v1.63.0"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.hosts[0].host | string | `""` |  |
 | ingress.hosts[0].paths[0].path | string | `"/pm"` |  |
@@ -55,7 +63,6 @@ A Helm chart for Harness policy management
 | postgresPassword.key | string | `"postgres-password"` |  |
 | postgresPassword.name | string | `"postgres"` |  |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"100m"` |  |
 | resources.limits.memory | string | `"128Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |
