@@ -16,7 +16,7 @@ data:
   APP_PLATFORM_BASE_URL: 'http://platform-service:9005'
   APP_ENABLE_AUDIT_TRAIL: 'true'
   APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
-  APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: {{ not .Values.global.database.redis.installed | quote }}
+  APP_EVENTS_FRAMEWORK_REDIS_USE_PASSWORD: {{ include "harnesscommon.dbconnection.isRedisPasswordSet" (dict "context" $dbContext) | quote }}
   APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_MASTER_NAME: 'harness-redis'
   APP_EVENTS_FRAMEWORK_REDIS_SENTINEL_URLS: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
   APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: {{ .Values.global.database.redis.installed | quote }}
