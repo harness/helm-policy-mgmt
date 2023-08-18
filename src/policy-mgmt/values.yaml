@@ -59,7 +59,7 @@ waitForInitContainer:
     imagePullSecrets: []
 
 config:
-  gitxEnabled: false
+  gitxEnabled: true
   httpBind: '3000'
   debug: 'true'
 
