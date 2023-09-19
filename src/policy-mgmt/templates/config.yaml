@@ -22,9 +22,10 @@ data:
   APP_EVENTS_FRAMEWORK_REDIS_USE_SENTINEL: {{ .Values.global.database.redis.installed | quote }}
   APP_EVENTS_FRAMEWORK_REDIS_URL: {{ include "harnesscommon.dbconnection.redisConnection" (dict "context" $dbContext) }}
   APP_GITX_ENABLED: '{{ .Values.config.gitxEnabled }}'
-  APP_GITX_AUTHORITY: '{{ .Values.config.gitxAuthority }}'
-  APP_GITX_URL: '{{ .Values.config.gitxUrl }}'
+  APP_GITX_AUTHORITY: "ng-manager:13002"
+  APP_GITX_URL: "ng-manager:13002"
   APP_TOKEN_JWT_SECRET: "HVSKUYqD4e5Rxu12hFDdCJKGM64sxgEynvdDhaOHaTHhwwn0K4Ttr0uoOxSsEVYNrUU="
   APP_INTERNAL_TOKEN_JWT_SECRET: "dOkdsVqdRPPRJG31XU0qY4MPqmBBMk0PTAGIKM6O7TGqhjyxScIdJe80mwh5Yb5zF3KxYBHw6B3Lfzlq"
   APP_NEXT_GEN_MANAGER_JWT_SECRET: "IC04LYMBf1lDP5oeY4hupxd4HJhLmN6azUku3xEbeE3SUx5G3ZYzhbiwVtK4i7AmqyU9OZkwB4v8E9qM"
   APP_FEATURE_FLAGS_ENABLED: 'false'
+  APP_FEATURE_FLAGS_ENABLED_ON_SMP: 'true'
