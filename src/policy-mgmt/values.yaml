@@ -37,6 +37,7 @@ global:
       extraArgs: ""
     postgres:
       installed: true
+      dbname: policy-mgmt
 
 replicaCount: 1
 image:
@@ -59,9 +60,38 @@ waitForInitContainer:
     imagePullSecrets: []
 
 config:
-  gitxEnabled: false
-  httpBind: '3000'
-  debug: 'true'
+  APP_ACCESS_CONTROL_BASE_URL: 'http://access-control:9006'
+  APP_DATABASE_USER: postgres
+  APP_DATABASE_DRIVER: 'postgres'
+  APP_DEBUG: 'true'
+  APP_ENABLE_AUDIT_TRAIL: 'true'
+  APP_EVENTS_FRAMEWORK_REDIS_SSL_ENABLED: 'false'
+  APP_FEATURE_FLAGS_ENABLED: 'false'
+  APP_GITX_AUTHORITY: 'false'
+  APP_GITX_ENABLED: 'true'
+  APP_GITX_URL: 'nginx-ingress-controller-130:443'
+  APP_HTTP_BIND: ':3000'
+  APP_NG_BASE_URL: 'http://ng-manager:7090'
+  APP_ON_PREM: 'true'
+  APP_PLATFORM_BASE_URL: 'http://platform-service:9005'
+
+secrets:
+  default:
+    ET_AGENT_TOKEN: "DUMMY"
+  kubernetesSecrets:
+    - secretName: ""
+      keys:
+        ET_AGENT_TOKEN: ""
+  secretManagement:
+    externalSecretsOperator:
+      - secretStore:
+          name: ""
+          kind: ""
+        remoteKeys:
+          ET_AGENT_TOKEN:
+            name: ""
+            property: ""
+
 
 # imagePullSecrets:
 #   - name: gcr-json-key
@@ -137,3 +167,51 @@ affinity: {}
 postgresPassword:
   name: postgres
   key: postgres-password
+
+redis:
+  protocol: ""
+  hosts: []
+  extraArgs: ""
+  secrets:
+    kubernetesSecrets:
+      - secretName: ""
+        keys:
+          REDIS_USERNAME: ""
+          REDIS_PASSWORD: ""
+    secretManagement:
+      externalSecretsOperator:
+        - secretStore:
+            name: ""
+            kind: ""
+          remoteKeys:
+            REDIS_USERNAME:
+              name: ""
+              property: ""
+            REDIS_PASSWORD:
+              name: ""
+              property: ""
+database:
+  mongo:
+    templateharness:
+      enabled: false
+      protocol: ""
+      hosts: []
+      extraArgs: ""
+      secrets:
+        kubernetesSecrets:
+          - secretName: ""
+            keys:
+              MONGO_USER: ""
+              MONGO_PASSWORD: ""
+        secretManagement:
+          externalSecretsOperator:
+            - secretStore:
+                name: ""
+                kind: ""
+              remoteKeys:
+                MONGO_USER:
+                  name: ""
+                  property: ""
+                MONGO_PASSWORD:
+                  name: ""
+                  property: ""
