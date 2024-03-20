@@ -40,6 +40,10 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) }}
+          {{- if .Values.command }}
+          command:
+            {{- toYaml .Values.command | nindent 12 }}
+           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
@@ -50,6 +54,7 @@ spec:
               protocol: TCP
           env:
             {{- include "harnesscommon.dbconnection.redisEnv" (dict "context" .Values.global.database.redis "userVariableName" "EVENTS_CONFIG_REDIS_USERNAME" "passwordVariableName" "APP_EVENTS_FRAMEWORK_REDIS_PASSWORD") | indent 12 }}
+            {{- include "harnesscommon.renderSecretsAsEnvironmentVariables" (dict "ctx" $) | indent 12}}
             {{- if .Values.global.database.postgres.installed }}
             - name: APP_DATABASE_USER
               value: postgres
@@ -58,7 +63,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.postgresPassword.name }}
                   key: {{ .Values.postgresPassword.key }}
-            {{- else }}
+            {{- else if .Values.global.database.postgres.secretName }}
             - name: APP_DATABASE_USER
               valueFrom:
                 secretKeyRef:
@@ -72,7 +77,8 @@ spec:
             {{- end }}
             - name: APP_DATABASE_DATASOURCE
               value: {{- include "policy-mgmt.postgresConnection" (dict "context" $) }}
-
+          volumeMounts:
+          {{- include "harnesscommon.mountRenderedSecretsAsVolumeMounts" (dict "ctx" $) | indent 12}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -85,3 +91,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      {{- include "harnesscommon.renderSecretsAsVolumes" (dict "ctx" $) | indent 8 }}

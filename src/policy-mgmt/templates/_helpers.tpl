@@ -71,6 +71,7 @@ Create the name of the service account to use
 {{- define "policy-mgmt.postgresConnection" }}
 {{- $type := "postgres" }}
 {{- $hosts := (pluck $type .context.Values.global.database | first ).hosts }}
+{{- $dbname := (pluck $type .context.Values.global.database | first).dbname }}
 {{- $dbType := upper $type }}
 {{- $installed := (pluck $type .context.Values.global.database | first).installed }}
 {{- if $installed  }}
@@ -78,6 +79,6 @@ Create the name of the service account to use
 {{- else }}
 {{- $firsthostport := (index $hosts 0) -}}
 {{- $hostport := split ":" $firsthostport -}}
-{{- printf " host=%s user=DBUSER password=DBPASSWORD dbname=policy-mgmt sslmode=disable" $hostport._0 }}
+{{- printf " host=%s user=DBUSER password=DBPASSWORD dbname=%s sslmode=disable" $hostport._0 $dbname }}
 {{- end }}
 {{- end }}
